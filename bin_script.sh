@@ -8,8 +8,10 @@ fi
 filename="$1"
 
 if [ -f "$filename" ]; then
-    gcc -g "$filename" -o binary
-    echo "A Binary '$filename' has been created!\n"
+    mybinary=$(echo "$filename" |  awk -F '/' '{print $NF}' | awk -F '.' '{print $1}')
+
+    gcc -g "$filename" -o "$mybinary" 
+    echo "A Binary file '$mybinary' has been created!\n"
 else
     echo "Error: File '$filename' not found."
 fi
