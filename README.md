@@ -17,7 +17,7 @@ python3 -venv <venv_name>
 
 # Step 2: Install all the needed packages with this command
 
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 
 # Step 3: Add the Gemini API Key to the variables.py file
 
