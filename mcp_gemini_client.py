@@ -42,16 +42,31 @@ async def main() -> None:
                 
                 A GDB session is already running and attached to this binary via MCP tools.
                 
-                Use the available tools (like gdb_command) to:
+                Use the available tools (like gdb_command, run_program, backtrace, step_in, continue) to:
                   - run the program
                   - inspect any crash via backtrace
                   - explain the root cause and likely fix.
 
-                Make sure to check for buffer overflows, format string issues, bypass checks
-                deserialized flaws, any code tampering, or command injections
-                Do not set breakpoints, if you want to test it with different value,
-                go ahead and test it and then give an analyzed output on how it will
-                work.
+                
+                1.  Initial Run: Call the `gdb_command` tool to run the
+                     attached binary. *Example: `gdb_command("run")`*
+
+                2.  Context Gathering: If the program crashes, immediately call
+                    the tool to get the necessary context. *Example: `gdb_command("bt full")`*
+
+                3.  Diagnosis: Analyze the execution output (backtrace, register
+                    state, error messages) to determine the exact vulnerability type.
+                4.  Security Analysis: Prioritize checking for and diagnosing,
+                    Buffer Overflows (Stack/Heap), Format String Issues, Command
+                    Injection, Deserialization Flaws
+
+                5.  Hypothesis Testing: If needed, execute one or more additional
+                    additional `gdb_command` calls (e.g., `p variable_name`)
+                    to test a hypothesis or inspect a different input value, but
+                    do not set persistent breakpoints.
+
+               Make sure to write the output with an Execution Summary, a Root-Cause Analysis,
+               the Vulnerability Type, and a Proposed Fix
             """
             response = await client.aio.models.generate_content(
                 model="gemini-2.5-flash",
