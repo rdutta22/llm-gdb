@@ -10,6 +10,9 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from variables import *
 
+from rich.console import Console
+from rich.markdown import Markdown
+
 
 async def main() -> None:
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
@@ -79,8 +82,10 @@ async def main() -> None:
                 ),
             )
 
+            console = Console()
+            md = Markdown(response.text)
             print("\n=== Gemini answer ===\n")
-            print(response.text)
+            console.print(md)
             print("\n=====================\n")
 
 
